@@ -27,7 +27,7 @@ python3 scripts/browser-smoke.py
 ## 页面与内容
 
 - `/`：English，使用原站的 compact 15px 标度。
-- `/zh/`：中文；`/ja/`：日本語。保留原站各自的桌面和手机字号规则。
+- `/zh/`：中文；`/ja/`：日本語。保留原站的桌面和手机基础标度，配合楷书字体调整正文大小、行距和标题字重。
 - 旧的 `?lang=en`、`?lang=zh`、`?lang=ja` 链接仍可使用。
 - 背景、软件项目、应用 AI、研究、所获荣誉、联系方式采用原站的竖排锚点导航和条目／列表结构。
 - 两份原始简历通过背景栏末尾的 PDF 链接提供；它们保留上传文件的全部原始内容。
@@ -38,13 +38,15 @@ python3 scripts/browser-smoke.py
 
 ## 与参考网站的对照
 
-已实际读取英文、中文、日文原站页面和 `style.css?v=21`，并用真实浏览器记录桌面／手机截图及计算样式。使用原站的 CSS 规则，包括 680px **内容宽度**、content-box 盒模型、背景色 #fafafa、Inter 字体、120×150px 桌面照片框、80×100px 手机照片框、标题层级、空白、细线和 600px 响应式断点。没有保留上一版的侧栏、绿色卡片、深色主题、项目筛选和弹窗。
+已实际读取英文、中文、日文原站页面和 `style.css?v=21`，并用真实浏览器记录桌面／手机截图及计算样式。布局保留 680px **内容宽度**、content-box 盒模型、背景色 #fafafa、120×150px 桌面照片框、80×100px 手机照片框、标题层级、空白、细线和 600px 响应式断点。按 Linus 后续要求，字体改为庄重的衬线／楷书搭配，并调整正文的字号与行距。没有保留上一版的侧栏、绿色卡片、深色主题、项目筛选和弹窗。
 
 个人资料替换后，段落长度及栏目内容自然不同；栏目“Applied AI”和“Selected Honors”对应 Linus 的实际工作与荣誉，未搬用原作者的金融经历和写作。未复制原站的 Google Analytics 或原作者照片。
 
 **照片：** 两份简历中没有可用本人照片。照片框目前显示 `LL` 姓名缩写，占据原站相同位置和尺寸。将本人照片放入 `public/` 并设置 `profile.portrait`（例如 `public/portrait.jpg`）即可替换。当前占位图不是本人照片。
 
-Inter 字体来自 npm `@fontsource/inter` **5.3.0**，下载后与注册表提供的 SHA-512 完整性信息核对，随站点自托管，保留 `public/fonts/LICENSE`。因此网页运行无需 Google Fonts 或任何外部脚本。
+英文采用 **Source Serif 4**，中文采用 **霞鹜文楷（LXGW WenKai）**，日文采用与文楷风格协调的 **Klee One**。字体随站点自托管，支持普通正文与加重标题，英文另有斜体。中日文字体已按网站现有字符生成子集，八个 WOFF2 文件合计约 662 KiB；网页运行无需 Google Fonts 或任何字体 CDN。
+
+字体来源包、版本、完整性校验和许可证见 [`public/fonts/FONT-SOURCES.md`](public/fonts/FONT-SOURCES.md)。更新中日文内容后，可按该说明重新生成字体子集；日常开发和 GitHub Pages 构建不需要安装字体工具。
 
 ## GitHub Pages 部署
 
@@ -60,4 +62,4 @@ GitHub Pages 默认目标地址：
 - 中文：`https://user309dec.github.io/working-website/zh/`
 - 日本語：`https://user309dec.github.io/working-website/ja/`
 
-这些地址在 Pages 启用且部署成功后才会可用。已在 `/working-website/` 项目子路径下验证语言导航、静态资源、字体、PDF 和无 JavaScript 页面。无需修改资源路径或设置自定义域名。
+上述地址已经成功部署并验证。已在 `/working-website/` 项目子路径下验证语言导航、静态资源、字体、PDF 和无 JavaScript 页面。自定义域名可在选购后单独绑定，当前网站可继续使用默认网址。

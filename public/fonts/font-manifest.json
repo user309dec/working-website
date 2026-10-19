@@ -1,0 +1,114 @@
+{
+  "licenses": "SIL Open Font License 1.1",
+  "textInputs": [
+    "index.html",
+    "zh/index.html",
+    "ja/index.html",
+    "src/profile.js",
+    "src/translations.js",
+    "src/render.js"
+  ],
+  "subsetter": "fontTools 4.61.1 with Brotli 1.2.0",
+  "packages": {
+    "lxgw-wenkai": {
+      "version": "5.3.0",
+      "tarball": "https://registry.npmjs.org/@fontsource/lxgw-wenkai/-/lxgw-wenkai-5.3.0.tgz",
+      "integrity": "sha512-+U5AAOXeaB7o+3G0Qm7I7Djz2Jd1hqNY+kClOZH8bTunyyGa2WxY12LZftt2AqUsxlfxwdQpd75Js1HQIt4H4g==",
+      "upstream": "https://github.com/lxgw/LxgwWenKai"
+    },
+    "klee-one": {
+      "version": "5.3.1",
+      "tarball": "https://registry.npmjs.org/@fontsource/klee-one/-/klee-one-5.3.1.tgz",
+      "integrity": "sha512-TWW1hZylfNSpsKAIxKlCUY02gSiRhulJgfVIOlpDMZhBbssXvKBnbUREFkZuB0Hefe2xiso07JWKDxOENKwu1w==",
+      "upstream": "https://github.com/google/fonts"
+    },
+    "source-serif-4": {
+      "version": "5.3.1",
+      "tarball": "https://registry.npmjs.org/@fontsource/source-serif-4/-/source-serif-4-5.3.1.tgz",
+      "integrity": "sha512-cWcTCXjYYrgF9A67fThVir1VSc0lPEYmwQ6jA4pPt01s2MSCi/maINUcZoCzaqnU8fyUReDO97eGcBUkHgOeug==",
+      "upstream": "https://github.com/google/fonts"
+    }
+  },
+  "fonts": [
+    {
+      "file": "lxgw-wenkai-site-400-normal.woff2",
+      "family": "LXGW WenKai",
+      "weight": 400,
+      "style": "normal",
+      "bytes": 154044,
+      "sha256": "014aa01f940d06f868d96c3474079f924dbe4e191fc1b804a46672c7400194fa",
+      "glyphCoverage": 717,
+      "sourceFile": "lxgw-wenkai-latin-500-normal.woff2"
+    },
+    {
+      "file": "lxgw-wenkai-site-700-normal.woff2",
+      "family": "LXGW WenKai",
+      "weight": 700,
+      "style": "normal",
+      "bytes": 152004,
+      "sha256": "6ed1ccad49a1ebe8e2ec0011409e2a4986228b7fa10adb4cfad4f3f185095910",
+      "glyphCoverage": 717,
+      "sourceFile": "lxgw-wenkai-latin-700-normal.woff2"
+    },
+    {
+      "file": "klee-one-site-400-normal.woff2",
+      "family": "Klee One",
+      "weight": 400,
+      "style": "normal",
+      "bytes": 141848,
+      "sha256": "8c07917ea9deda27d2b22e7526391687e924e09e1230c72bc9fc8f88f4e0a0bf",
+      "glyphCoverage": 575,
+      "sourceFile": "klee-one-japanese-400-normal.woff2"
+    },
+    {
+      "file": "klee-one-site-600-normal.woff2",
+      "family": "Klee One",
+      "weight": 600,
+      "style": "normal",
+      "bytes": 147068,
+      "sha256": "122cc8772e0b3111117a9596846b6a84dd979fcec3439d003393f0b0fc0c5444",
+      "glyphCoverage": 575,
+      "sourceFile": "klee-one-japanese-600-normal.woff2"
+    },
+    {
+      "file": "source-serif-4-latin-400-normal.woff2",
+      "family": "Source Serif 4",
+      "weight": 400,
+      "style": "normal",
+      "bytes": 20088,
+      "sha256": "02194deb92d3975dd30e11a3824a1f1db32b48c93654e60560cb81ce8e7b5f95",
+      "glyphCoverage": 231,
+      "sourceFile": "source-serif-4-latin-400-normal.woff2"
+    },
+    {
+      "file": "source-serif-4-latin-500-normal.woff2",
+      "family": "Source Serif 4",
+      "weight": 500,
+      "style": "normal",
+      "bytes": 21528,
+      "sha256": "d3e119de0b756d9fa6d368de570f7168bb74eedf3289aaeae22dd97b900918d1",
+      "glyphCoverage": 231,
+      "sourceFile": "source-serif-4-latin-500-normal.woff2"
+    },
+    {
+      "file": "source-serif-4-latin-600-normal.woff2",
+      "family": "Source Serif 4",
+      "weight": 600,
+      "style": "normal",
+      "bytes": 21532,
+      "sha256": "f2b7e1cf1d277b7608231868135648f8ad8e2b58d8e97ca088bee15dc357bee7",
+      "glyphCoverage": 231,
+      "sourceFile": "source-serif-4-latin-600-normal.woff2"
+    },
+    {
+      "file": "source-serif-4-latin-400-italic.woff2",
+      "family": "Source Serif 4",
+      "weight": 400,
+      "style": "italic",
+      "bytes": 20092,
+      "sha256": "882b7c150c29f29d4f8daae6b8dcae8662aac7f28ca34b34615305154136ecfd",
+      "glyphCoverage": 231,
+      "sourceFile": "source-serif-4-latin-400-italic.woff2"
+    }
+  ]
+}

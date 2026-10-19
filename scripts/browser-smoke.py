@@ -22,6 +22,32 @@ LOCALES = {
 SECTIONS = ['background', 'projects', 'insights', 'research', 'writing', 'contact']
 
 
+def assert_rendered_fonts(page, locale):
+    """Check fonts Chromium used for glyphs, including CJK and Latin prose."""
+    session = page.context.new_cdp_session(page)
+    try:
+        session.send('DOM.enable')
+        session.send('CSS.enable')
+        root = session.send('DOM.getDocument')['root']['nodeId']
+        rendered = {}
+        for selector in ['h1', '#background > h2', '#background .entry > p', '#research .note']:
+            node = session.send('DOM.querySelector', {'nodeId': root, 'selector': selector})['nodeId']
+            fonts = session.send('CSS.getPlatformFontsForNode', {'nodeId': node})['fonts']
+            assert fonts and all(font['glyphCount'] > 0 and font['isCustomFont'] for font in fonts), (locale, selector, fonts)
+            rendered[selector] = fonts
+        assert all(font['postScriptName'].startswith('SourceSerif4-') for font in rendered['h1']), rendered
+        expected = {'en': 'SourceSerif4-', 'zh': 'LXGWWenKai-', 'ja': 'KleeOne-'}[locale]
+        assert all(font['postScriptName'].startswith(expected) for font in rendered['#background > h2']), rendered
+        for selector in ['#background .entry > p', '#research .note']:
+            fonts = rendered[selector]
+            assert any(font['postScriptName'].startswith(expected) for font in fonts), (locale, selector, fonts)
+            allowed = ('SourceSerif4-', 'LXGWWenKai-', 'KleeOne-')
+            assert all(font['postScriptName'].startswith(allowed) for font in fonts), fonts
+        return rendered
+    finally:
+        session.detach()
+
+
 def assert_locale(page, locale):
     expect(page.locator('html')).to_have_attribute('lang', LOCALES[locale][1])
     expect(page.locator('.masthead h1')).to_have_text(re.compile(r'Linus\s*Liu'))
@@ -45,6 +71,7 @@ def assert_reference_geometry(page, width, locale):
     """Measurements from live donyang.me CSS on 2026-10-19.
 
     Check layout independently of text length or remote font availability.
+    Serif/Kai families and larger prose sizes reflect the user's later changes.
     Main is a 680px content box with padding outside it; CJK mobile rems
     shrink to 15px while its body text remains at 16px.
     """
@@ -58,7 +85,8 @@ def assert_reference_geometry(page, width, locale):
       };
       return {root:box('html'),body:box('body'),main:box('main'),header:box('.masthead'),
         name:box('h1'),portrait:box('.masthead-portrait'),nav:box('.masthead nav'),
-        h2:box('section > h2'),entry:box('.entry-head')};
+        h2:box('section > h2'),entry:box('.entry-head'),
+        description:box('#background .entry > p'),entryTitle:box('.entry-head h4')};
     }''')
     mobile = width <= 600
     rem = 15 if locale == 'en' or mobile else 16
@@ -82,11 +110,16 @@ def assert_reference_geometry(page, width, locale):
     near(geometry['h2']['fontSize'], (1.25 if mobile else 1.375) * rem, 'section font size')
     near(geometry['nav']['gap'], .35 * rem, 'nav gap')
     near(geometry['nav']['paddingLeft'], 1.25 * rem, 'nav padding')
+    near(geometry['body']['fontSize'], 15 if locale == 'en' else 16, 'body font size')
+    near(geometry['description']['fontSize'], (.95 if locale == 'en' else 1) * rem, 'readable description size')
+    near(geometry['entryTitle']['fontSize'], 1.0625 * rem, 'readable entry title size')
     assert geometry['nav']['direction'] == 'column'
     assert geometry['entry']['direction'] == ('column' if mobile else 'row')
     assert geometry['body']['background'] == 'rgb(250, 250, 250)'
     assert geometry['h2']['borderBottom'] == '1px solid rgb(229, 229, 229)'
-    assert geometry['body']['fontFamily'].startswith('Inter')
+    assert geometry['body']['fontFamily'].startswith('"Source Serif 4"')
+    if locale == 'zh': assert 'LXGW WenKai' in geometry['body']['fontFamily']
+    if locale == 'ja': assert 'Klee One' in geometry['body']['fontFamily']
     (ARTIFACTS / f'geometry-{locale}-{width}.json').write_text(json.dumps(geometry, indent=2))
 
 
@@ -134,11 +167,12 @@ def main():
                     visit(page, locale)
                     assert_no_overflow(page)
                     assert_reference_geometry(page, width, locale)
+                    rendered = assert_rendered_fonts(page, locale)
+                    (ARTIFACTS / f'rendered-fonts-{locale}-{width}.json').write_text(json.dumps(rendered, indent=2))
                     assert page.locator('.masthead-portrait').evaluate('el => el.complete && el.naturalWidth > 0')
                     if (width, locale) in [(1440,'en'),(1440,'zh'),(1440,'ja'),(390,'zh'),(390,'ja'),(320,'en')]:
                         page.screenshot(path=str(ARTIFACTS / f'home-{locale}-{width}.png'), full_page=True)
-                        if width == 1440:
-                            page.screenshot(path=str(ARTIFACTS / f'viewport-{locale}-{width}.png'))
+                        page.screenshot(path=str(ARTIFACTS / f'viewport-{locale}-{width}.png'))
                 run(f'reference geometry and overflow: {width}px / {locale}', responsive_check)
 
         def language_navigation():
@@ -238,17 +272,32 @@ def main():
             run(f'static content and navigation without JavaScript / {locale}', no_javascript)
 
         def fonts_and_print():
-            visit(page, 'en')
-            loaded = page.evaluate("[...document.fonts].filter(f => f.family === 'Inter' && f.status === 'loaded').map(f => ({weight:f.weight,style:f.style}))")
-            assert {f['weight'] for f in loaded if f['style'] == 'normal'} >= {'400','500','600'}, loaded
-            (ARTIFACTS / 'loaded-fonts.json').write_text(json.dumps(loaded, indent=2))
-            page.emulate_media(media='print')
-            expect(page.locator('.masthead h1')).to_be_visible()
-            expect(page.locator('#research')).to_be_visible()
-            page.pdf(path=str(ARTIFACTS / 'linus-profile-print.pdf'), format='A4', print_background=True)
-            assert (ARTIFACTS / 'linus-profile-print.pdf').read_bytes().startswith(b'%PDF-')
-            page.emulate_media(media='screen')
-        run('self-hosted Inter weights loaded and printable profile PDF', fonts_and_print)
+            report = {}
+            for locale in LOCALES:
+                visit(page, locale)
+                loaded = page.evaluate("[...document.fonts].filter(f => f.status === 'loaded').map(f => ({family:f.family,weight:f.weight,style:f.style}))")
+                families = {}
+                for font in loaded:
+                    if font['style'] == 'normal':
+                        families.setdefault(font['family'].strip('\"\''), set()).add(font['weight'])
+                required = {'Source Serif 4': {'400', '500', '600'} if locale == 'en' else {'400', '600'}}
+                if locale == 'zh': required['LXGW WenKai'] = {'400', '700'}
+                if locale == 'ja': required['Klee One'] = {'400', '600'}
+                for family, weights in required.items():
+                    assert families.get(family, set()) >= weights, (locale, family, loaded)
+                report[locale] = {'loaded': loaded, 'rendered': assert_rendered_fonts(page, locale)}
+                try:
+                    page.emulate_media(media='print')
+                    expect(page.locator('.masthead h1')).to_be_visible()
+                    expect(page.locator('#research')).to_be_visible()
+                    report[locale]['printed'] = assert_rendered_fonts(page, locale)
+                    filename = 'linus-profile-print.pdf' if locale == 'en' else f'linus-profile-print-{locale}.pdf'
+                    page.pdf(path=str(ARTIFACTS / filename), format='A4', print_background=True)
+                    assert (ARTIFACTS / filename).read_bytes().startswith(b'%PDF-')
+                finally:
+                    page.emulate_media(media='screen')
+            (ARTIFACTS / 'loaded-fonts.json').write_text(json.dumps(report, indent=2))
+        run('actual serif/Kai glyphs, per-language local weights, and printable profile PDFs', fonts_and_print)
 
         def disabled_storage():
             isolated = browser.new_context()
