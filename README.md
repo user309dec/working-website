@@ -1,6 +1,6 @@
 # Linus Liu · Personal website
 
-日语、中文和英语个人网站，依据用户指定的 **https://donyang.me/** 的真实 HTML、CSS 和三语页面重建。个人资料来自用户提供的两份 PDF 简历。
+日语、中文和英语个人网站
 
 ## 开发与构建
 
