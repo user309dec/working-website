@@ -1,0 +1,47 @@
+export const locales = ['en', 'zh', 'ja'];
+export const languageNames = { en: 'English', zh: '中文', ja: '日本語' };
+export const htmlLanguages = { en: 'en', zh: 'zh-CN', ja: 'ja' };
+export const translations = {
+  en: {
+    background: 'Background', projects: 'Projects', insights: 'Applied AI', research: 'Research', writing: 'Selected Honors', contact: 'Contact',
+    education: 'Education', experience: 'Experience', extracurricular: 'Extracurricular', skills: 'Skills',
+    programming: 'Programming', tools: 'AI & data tools', engineering: 'Engineering', interests: 'Research interests',
+    tagline: 'Computer Science & Applied Mathematics at Rice University',
+    description: 'Linus Liu — Rice University undergraduate in Computer Science and Computational and Applied Mathematics. AI research, engineering, and selected projects.',
+    appliedResume: 'Applied AI résumé', researchResume: 'Research résumé',
+    researchIntro: 'Selected research experience in computational pathology, LLM memory, and biosignal recognition.',
+    insightsIntro: 'Selected applied machine learning and engineering work.',
+    researchInterests: 'Mixture-of-experts (MoE), AI for science, and efficient large-scale AI.',
+    navigation: 'Main navigation', skip: 'Skip to content', initials: 'Linus Liu — portrait placeholder',
+    coursework: 'Coursework', expected: 'Expected May 2028', houston: 'Houston, TX',
+    projectStatus: 'In progress', advisor: 'Advisor', bioLabel: 'About', print: 'Print / Save as PDF', back: 'Back to website',
+  },
+  zh: {
+    background: '个人背景', projects: '项目', insights: '应用人工智能', research: '研究', writing: '所获荣誉', contact: '联系方式',
+    education: '教育经历', experience: '工作与研究经历', extracurricular: '课外活动', skills: '技能',
+    programming: '编程语言', tools: '人工智能与数据工具', engineering: '工程技术', interests: '研究兴趣',
+    tagline: '莱斯大学 · 计算机科学与计算及应用数学',
+    description: 'Linus Liu — 莱斯大学计算机科学与计算及应用数学本科生。人工智能研究、工程经历与项目。',
+    appliedResume: '应用人工智能简历', researchResume: '研究简历',
+    researchIntro: '计算病理、语言模型记忆与生物信号识别方向的研究经历。',
+    insightsIntro: '应用机器学习与工程工作的部分记录。',
+    researchInterests: '混合专家模型（MoE）、科学智能（AI for Science）与高效大规模人工智能。',
+    navigation: '主导航', skip: '跳至正文', initials: 'Linus Liu — 照片占位',
+    coursework: '相关课程', expected: '预计 2028 年 5 月毕业', houston: '美国休斯敦',
+    projectStatus: '进行中', advisor: '导师', bioLabel: '个人简介', print: '打印 / 保存为 PDF', back: '返回网站',
+  },
+  ja: {
+    background: '経歴', projects: 'プロジェクト', insights: '応用 AI', research: 'リサーチ', writing: '受賞歴', contact: '連絡先',
+    education: '学歴', experience: '職歴・研究経験', extracurricular: '課外活動', skills: 'スキル',
+    programming: 'プログラミング言語', tools: 'AI・データツール', engineering: 'エンジニアリング', interests: '研究上の関心',
+    tagline: 'ライス大学 · 計算機科学・計算応用数学',
+    description: 'Linus Liu — ライス大学で計算機科学と計算応用数学を学ぶ学部生。AI 研究、エンジニアリング、プロジェクト。',
+    appliedResume: '応用 AI 分野の履歴書', researchResume: '研究経歴書',
+    researchIntro: '計算病理学、言語モデルの記憶、生体信号認識に関する研究経験。',
+    insightsIntro: '応用機械学習とエンジニアリングの主な取り組み。',
+    researchInterests: '混合エキスパート（MoE）、AI for Science、効率的な大規模 AI。',
+    navigation: 'メインナビゲーション', skip: '本文へスキップ', initials: 'Linus Liu — 写真のプレースホルダー',
+    coursework: '主な履修科目', expected: '2028年5月卒業見込み', houston: '米国テキサス州ヒューストン',
+    projectStatus: '進行中', advisor: '指導教員', bioLabel: '自己紹介', print: '印刷 / PDF として保存', back: 'サイトへ戻る',
+  },
+};
